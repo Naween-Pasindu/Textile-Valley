@@ -56,10 +56,12 @@ export default function Album() {
   };
 
 
+  const userId = JSON.parse(localStorage.getItem('USERID'));
+  console.log(userId);
   // ------------------------------------------------------------------
 
   // -------------initial states for fields---------------------------
-  const initialValues = { userName: "", password: "", accountState: "" };
+  const initialValues = { itemName: "", price: "", userId: "" };
 
   // ----------create state name form values--------
   const [formValues, setFormValues] = React.useState(initialValues);
@@ -74,25 +76,6 @@ export default function Album() {
 
   }
 
-  // ------------------------call user details-------------------
-  const callData = () => {
-    axios.get("http://localhost:8080/Test1/users", { headers: authHeader() })
-      .then(data => {
-        console.log(data)
-        setDetails(data.data)
-
-      }).catch(err => {
-        console.log(err)
-      });
-  }
-
-  useEffect(() => {
-
-    callData();
-
-    // console.log("hello")
-
-  }, []);
 
   const navigate = useNavigate();
   // ---------------logout-------------------------------
@@ -108,15 +91,15 @@ export default function Album() {
 
     event.preventDefault();
 
-    const user = {
-      "userName": formValues.userName,
-      "password": formValues.password,
-      "accountState": formValues.accountState
+    const item = {
+      "itemName": formValues.itemName,
+      "seller": formValues.price,
+      "price": formValues.userId
     }
 
     console.log(user);
 
-    axios.post("http://localhost:8080/Test1/Register/Signupuser", user, { headers: authHeader() })
+    axios.post("http://localhost:8080/textile-valley/seller/addItems", item, { headers: authHeader() })
       .then(data => {
         // console.log("Entry access sucessfull")
         callData();
@@ -170,9 +153,7 @@ export default function Album() {
               Textile Valley Buyer Dashboard
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              Something short and leading about the collection below—its contents,
-              the creator, etc. Make it short and sweet, but not too short so folks
-              don&apos;t simply skip over it entirely.
+              Best fashion Items you can found.
             </Typography>
             <Stack
               sx={{ pt: 4 }}
@@ -198,9 +179,9 @@ export default function Album() {
                 noValidate
                 autoComplete="off">
 
-                <TextField label="userName" name="userName" variant="outlined" onChange={handleChange} />
-                <TextField label="password" name="password" variant="outlined" onChange={handleChange} />
-                <TextField label="accountState" name="accountState" variant="outlined" onChange={handleChange} />
+                <TextField label="itemName" name="itemName" variant="outlined" onChange={handleChange} />
+                <TextField label="price" name="price" variant="outlined" onChange={handleChange} />
+                <TextField label="userId" name="userId" type="hidden" variant="outlined" onChange={handleChange} />
 
                 <Box>
                   <Button onClick={addUser1}>Add new</Button>

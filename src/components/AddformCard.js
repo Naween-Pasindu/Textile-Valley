@@ -20,10 +20,12 @@ export const AddForm = (props) => {
 
     const details1 = props.details1;
 
+    console.log(details1);
+
     // const navigate = useNavigate();
 
-    // -------------initial states for fields---------------------------
-    const initialValues = { userName: "", password: "", accountState: "" };
+  // -------------initial states for fields---------------------------
+  const initialValues = { itemName: "", price: "", userId: "" };
 
     // ----------create state name form values--------
     const [formValues, setFormValues] = React.useState(initialValues);
@@ -52,6 +54,8 @@ export const AddForm = (props) => {
 
     const [open2, setOpen2] = React.useState(false);
 
+    const userId = JSON.parse(localStorage.getItem('USERID'));
+
     const handleClickOpen2 = () => {
         setOpen2(true);
     };
@@ -67,16 +71,16 @@ export const AddForm = (props) => {
         const data = new FormData(event.currentTarget);
         // console.log(data)
 
-        const user = {
-            "id": data.get('userid'),
-            "userName": data.get('userName'),
-            "password": data.get('password'),
-            "accountState": data.get('accountState')
+        const item = {
+            "itemId": details1.itemId,
+            "itemName": data.get('itemName'),
+            "price": data.get('price'),
+            "seller": userId
         }
 
-        console.log(user);
+        console.log(data.get('itemId'));
 
-        axios.put("http://localhost:8080/Test1/update", user, { headers: authHeader() })
+        axios.put("http://localhost:5070/textile-valley/seller/update", item, { headers: authHeader() })
             .then(data => {
                 // console.log("Entry access sucessfull")
                 window.location.reload(false);
@@ -96,16 +100,16 @@ export const AddForm = (props) => {
         const data = new FormData(event.currentTarget);
         // console.log(data)
         const id = data.get('userid');
-        const user = {
-            "id": data.get('userid'),
-            "userName": data.get('userName'),
-            "password": data.get('password'),
-            "accountState": data.get('accountState')
-        }
+        // const item = {
+        //     "itemId": details1.itemId,
+        //     "itemName": data.get('itemName'),
+        //     "price": data.get('price'),
+        //     "seller": userId
+        // }
 
-        console.log(user);
+        // console.log(user);
 
-        axios.delete(`http://localhost:8080/Test1/delete/${id}`,{ headers: authHeader() })
+        axios.delete(`http://localhost:5070/textile-valley/seller/delete/${details1.itemId}`,{ headers: authHeader() })
             .then(data => {
                 // console.log("Entry access sucessfull")
                 window.location.reload(false);
@@ -130,11 +134,10 @@ export const AddForm = (props) => {
             >
                 <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
-                        {details1.userName}
+                        {details1.itemName}
                     </Typography>
                     <Typography>
-                        This is a media card. You can use this section to describe the
-                        content.
+                    Rs.{details1.price}
                     </Typography>
                 </CardContent>
                 <CardActions>
@@ -157,10 +160,10 @@ export const AddForm = (props) => {
                         noValidate
                         autoComplete="off">
 
-                        <TextField label="userName" name="userName" variant="outlined" onChange={handleChange} defaultValue={details1.userName} />
-                        <input name="password" type="hidden" defaultValue={details1.password} />
-                        <TextField label="accountState" name="accountState" variant="outlined" onChange={handleChange} defaultValue={details1.accountState} />
-                        <input name="userid" type="hidden" defaultValue={details1.id} />
+                        <TextField label="itemName" name="itemName" variant="outlined" onChange={handleChange} defaultValue={details1.itemName} />
+                        <input name="id" type="hidden" defaultValue={details1.itemId} />
+                        <TextField label="price" name="price" variant="outlined" onChange={handleChange} defaultValue={details1.price} />
+                        <input name="seller" type="hidden" defaultValue={details1.seller} />
 
                         <Box>
                             <Button type='submit'>Update</Button>
@@ -184,8 +187,8 @@ export const AddForm = (props) => {
                     <Box component="form" onSubmit={deleteUser1}
                         noValidate
                         autoComplete="off">
-                        <Typography>Delete {details1.userName} ?</Typography>
-                        <input name="userid" type="hidden" defaultValue={details1.id} />
+                        <Typography>Delete {details1.itemName} ?</Typography>
+                        <input name="userid" type="hidden" defaultValue={details1.itemId} />
 
                         <Box>
                             <Button type='submit'>Delete</Button>

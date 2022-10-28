@@ -43,8 +43,6 @@ export default function SignInSide() {
   // ----------create state name form values--------
   const [formValues, setFormValues] = React.useState(initialValues);
 
-  // -------------usestate for submit form-----------
-  const [isSubmit, setIsSubmit] = React.useState(false);
 
   // -------function to handle changes in the input fields and set it to formvalues----------
   const handleChange = (e) => {
@@ -74,6 +72,7 @@ export default function SignInSide() {
           (response) => {
               
               localStorage.setItem("ROLE", JSON.stringify(response.data.roles));
+              localStorage.setItem("USERID", JSON.stringify(response.data.userName));
   
               console.log("sucess 2")
               const ROLE = JSON.parse(localStorage.getItem('ROLE'));

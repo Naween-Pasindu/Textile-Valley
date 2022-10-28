@@ -23,7 +23,7 @@ function Copyright() {
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="">
-      Textile Valley
+        Textile Valley
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -59,7 +59,7 @@ export default function Album() {
   // ------------------------------------------------------------------
 
   // -------------initial states for fields---------------------------
-  const initialValues = { userName: "", password: "", accountState: "" };
+  const initialValues = { itemName: "", price: "", userId: "" };
 
   // ----------create state name form values--------
   const [formValues, setFormValues] = React.useState(initialValues);
@@ -74,9 +74,13 @@ export default function Album() {
 
   }
 
+  const userId = JSON.parse(localStorage.getItem('USERID'));
+  console.log(userId);
+
   // ------------------------call user details-------------------
   const callData = () => {
-    axios.get("http://localhost:8080/Test1/users", { headers: authHeader() })
+
+    axios.get(`http://localhost:5070/textile-valley/users/${userId}`, { headers: authHeader() })
       .then(data => {
         console.log(data)
         setDetails(data.data)
@@ -103,20 +107,21 @@ export default function Album() {
 
   };
 
+
   // -----------------------adding new user--------------------------
   const addUser1 = (event) => {
 
     event.preventDefault();
 
-    const user = {
-      "userName": formValues.userName,
-      "password": formValues.password,
-      "accountState": formValues.accountState
+    const item = {
+      "itemName": formValues.itemName,
+      "seller": userId,
+      "price": formValues.price
     }
 
-    console.log(user);
+    console.log(item);
 
-    axios.post("http://localhost:8080/Test1/Register/Signupuser", user, { headers: authHeader() })
+    axios.post("http://localhost:5070/textile-valley/seller/addItems", item, { headers: authHeader() })
       .then(data => {
         // console.log("Entry access sucessfull")
         callData();
@@ -180,7 +185,7 @@ export default function Album() {
               spacing={2}
               justifyContent="center"
             >
-              <Button variant="outlined" onClick={handleClickOpen}>Add Users</Button>
+              <Button variant="outlined" onClick={handleClickOpen}>Add Items</Button>
               <Button variant="outlined" onClick={logout}>Logout</Button>
             </Stack>
           </Container>
@@ -199,9 +204,9 @@ export default function Album() {
                 noValidate
                 autoComplete="off">
 
-                <TextField label="userName" name="userName" variant="outlined" onChange={handleChange} />
-                <TextField label="password" name="password" variant="outlined" onChange={handleChange} />
-                <TextField label="accountState" name="accountState" variant="outlined" onChange={handleChange} />
+                <TextField label="itemName" name="itemName" variant="outlined" onChange={handleChange} />
+                <TextField label="price" name="price" variant="outlined" onChange={handleChange} />
+                <TextField label="userId" name="userId" type="hidden" variant="outlined" onChange={handleChange} />
 
                 <Box>
                   <Button onClick={addUser1}>Add new</Button>
@@ -218,11 +223,11 @@ export default function Album() {
           <Grid container spacing={4}>
             {data.map((details1) => (
               // console.log(details1),
-              
+
 
               <Grid item key={details1} xs={12} sm={6} md={4}>
 
-                <AddForm details1={details1}/>
+                <AddForm details1={details1} />
 
               </Grid>
 
