@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Box, Button, Card, CardActions, CardContent, TextField, Typography } from '@mui/material';
 
 
 import axios from 'axios';
 import authHeader from "../services/auth-header";
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import Slide from '@mui/material/Slide';
 
 // ----------for the transition of the form------------
@@ -22,9 +20,8 @@ export const AddForm = (props) => {
 
     const details1 = props.details1;
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-    const [details, setDetails] = useState([]);
     // -------------initial states for fields---------------------------
     const initialValues = { userName: "", password: "", accountState: "" };
 
@@ -68,9 +65,6 @@ export const AddForm = (props) => {
     const updateUser1 = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        const restaurantAbout = {
-            about: data.get('about_description')
-        }
         // console.log(data)
 
         const user = {
@@ -100,9 +94,6 @@ export const AddForm = (props) => {
      const deleteUser1 = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        const restaurantAbout = {
-            about: data.get('about_description')
-        }
         // console.log(data)
         const id = data.get('userid');
         const user = {

@@ -11,7 +11,7 @@ function App() {
   return (
     <Box sx={{margin:"0"}}>
       <Routes>
-      <Route path="/Textile-Valley/SignInSide" element={<SignInSide/>} />
+      <Route path="/" element={<SignInSide/>} />
       <Route path="/Textile-Valley/SellerDashBoard" element={<SellerDashBoard/>} />
       </Routes>
     </Box>

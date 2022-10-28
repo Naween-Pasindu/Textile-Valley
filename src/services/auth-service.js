@@ -1,11 +1,11 @@
 import axios from "axios";
-const API_URL = "http://localhost:5030/textile-valley/auth";
+// const API_URL = "http://localhost:5030/textile-valley/auth";
 
 
 const login = async (username, password) => {
 
     const userdetails = {
-        "userName" : username,
+        "username" : username,
         "password" : password
     }
   
@@ -34,7 +34,6 @@ const getCurrentUsername = () => {
 
 
 const AuthService = {
-  register,
   login,
   logout,
   getCurrentUser,
