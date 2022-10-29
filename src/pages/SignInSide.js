@@ -82,7 +82,7 @@ export default function SignInSide() {
 
               if(CHECKROLE!=="2")
               {
-                navigate("/")
+                navigate("/Textile-Valley/BuyerDashBoard")
               }
               else{
                 navigate("/Textile-Valley/SellerDashBoard")

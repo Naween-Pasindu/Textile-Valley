@@ -64,9 +64,8 @@ export const AddForm = (props) => {
         setOpen2(false);
     };
 
-    // const { location, address, telephone} = restaurant;
-    // -----------------updating the user-----------------
-    const updateUser1 = (event) => {
+    // -----------------updating the items-----------------
+    const updateItem1 = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         // console.log(data)
@@ -88,26 +87,17 @@ export const AddForm = (props) => {
 
             })
             .catch(error => {
-                // console.log(restaurantAbout)
                 // console.log("There is an error")
 
             })
     }
 
-     // -----------------deleting the  user-----------------
-     const deleteUser1 = (event) => {
+     // -----------------deleting the item-----------------
+     const deleteItem1 = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         // console.log(data)
         const id = data.get('userid');
-        // const item = {
-        //     "itemId": details1.itemId,
-        //     "itemName": data.get('itemName'),
-        //     "price": data.get('price'),
-        //     "seller": userId
-        // }
-
-        // console.log(user);
 
         axios.delete(`http://localhost:5070/textile-valley/seller/delete/${details1.itemId}`,{ headers: authHeader() })
             .then(data => {
@@ -117,7 +107,6 @@ export const AddForm = (props) => {
 
             })
             .catch(error => {
-                // console.log(restaurantAbout)
                 // console.log("There is an error")
 
             })
@@ -156,7 +145,7 @@ export const AddForm = (props) => {
             >
                 <DialogTitle>{"Update username"}</DialogTitle>
                 <DialogContent>
-                    <Box component="form" onSubmit={updateUser1}
+                    <Box component="form" onSubmit={updateItem1}
                         noValidate
                         autoComplete="off">
 
@@ -184,7 +173,7 @@ export const AddForm = (props) => {
             >
                 <DialogTitle>{"Delete user"}</DialogTitle>
                 <DialogContent>
-                    <Box component="form" onSubmit={deleteUser1}
+                    <Box component="form" onSubmit={deleteItem1}
                         noValidate
                         autoComplete="off">
                         <Typography>Delete {details1.itemName} ?</Typography>

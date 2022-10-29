@@ -77,10 +77,10 @@ export default function Album() {
   const userId = JSON.parse(localStorage.getItem('USERID'));
   console.log(userId);
 
-  // ------------------------call user details-------------------
+  // ------------------------call item details-------------------
   const callData = () => {
 
-    axios.get(`http://localhost:5070/textile-valley/users/${userId}`, { headers: authHeader() })
+    axios.get(`http://localhost:5070/textile-valley/items/${userId}`, { headers: authHeader() })
       .then(data => {
         console.log(data)
         setDetails(data.data)
@@ -108,7 +108,7 @@ export default function Album() {
   };
 
 
-  // -----------------------adding new user--------------------------
+  // -----------------------adding new item--------------------------
   const addUser1 = (event) => {
 
     event.preventDefault();
@@ -129,7 +129,6 @@ export default function Album() {
 
       })
       .catch(error => {
-        // console.log(restaurantAbout)
         // console.log("There is an error")
 
       })

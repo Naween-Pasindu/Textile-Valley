@@ -86,8 +86,8 @@ export default function Album() {
 
   };
 
-  // -----------------------adding new user--------------------------
-  const addUser1 = (event) => {
+  // -----------------------adding new items--------------------------
+  const addItem1 = (event) => {
 
     event.preventDefault();
 
@@ -107,7 +107,6 @@ export default function Album() {
 
       })
       .catch(error => {
-        // console.log(restaurantAbout)
         // console.log("There is an error")
 
       })
@@ -184,7 +183,7 @@ export default function Album() {
                 <TextField label="userId" name="userId" type="hidden" variant="outlined" onChange={handleChange} />
 
                 <Box>
-                  <Button onClick={addUser1}>Add new</Button>
+                  <Button onClick={addItem1}>Add new</Button>
                   <Button onClick={handleClose}> Cancel </Button>
                 </Box>
 
