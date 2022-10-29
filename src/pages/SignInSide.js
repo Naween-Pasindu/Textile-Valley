@@ -13,13 +13,16 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import LoginImg from '../assets/images/Login.jpg'
+import { useNavigate } from 'react-router-dom';
+import AuthService from '../services/auth-service';
+import UserService from '../services/user-service';
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="">
-        Textile-Valley
+      Textile Valley
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -29,15 +32,80 @@ function Copyright(props) {
 
 const theme = createTheme();
 
+// ---------------login---------------------
 export default function SignInSide() {
+
+  const navigate = useNavigate();
+
+  // -------------initial states for fields---------------------------
+  const initialValues = { userName: "", password: "" };
+
+  // ----------create state name form values--------
+  const [formValues, setFormValues] = React.useState(initialValues);
+
+
+  // -------function to handle changes in the input fields and set it to formvalues----------
+  const handleChange = (e) => {
+
+    // destructuring inputfield
+    const { name, value } = e.target;
+    // get the relavant name as key and assign value to it
+    setFormValues({ ...formValues, [name]: value });
+
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+    const errors = {};
+
+      const userName = formValues.userName;
+      const password = formValues.password;
+
+      console.log("sucess 1")
+      
+      AuthService.login(userName, password).then(() => {
+
+        console.log("sucess 2")
+        // --------------------checking user and send to correct page-----------------
+        UserService.getUserInfo().then(
+          (response) => {
+              
+              localStorage.setItem("ROLE", JSON.stringify(response.data.roles));
+              localStorage.setItem("USERID", JSON.stringify(response.data.userName));
+  
+              console.log("sucess 2")
+              const ROLE = JSON.parse(localStorage.getItem('ROLE'));
+              const CHECKROLE = ROLE[0].authority;
+        
+              console.log(CHECKROLE)
+
+              if(CHECKROLE!=="2")
+              {
+                navigate("/Textile-Valley/BuyerDashBoard")
+              }
+              else{
+                navigate("/Textile-Valley/SellerDashBoard")
+              }
+  
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+
+
+      }, (error) => {
+        errors.NotFound = error.response.data;
+        // setFormErrors(errors);
+      })
   };
+
+  React.useEffect((event) => {
+
+    
+
+  })
 
   return (
     <ThemeProvider theme={theme}>
@@ -78,11 +146,14 @@ export default function SignInSide() {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
+
+                label="Username"
+                name='userName'
+                autoComplete='name'
+
+                id="userName"
+                value={formValues.userName}
+                onChange={handleChange}
               />
               <TextField
                 margin="normal"
@@ -92,7 +163,8 @@ export default function SignInSide() {
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="current-password"
+                value={formValues.password}
+                onChange={handleChange}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
